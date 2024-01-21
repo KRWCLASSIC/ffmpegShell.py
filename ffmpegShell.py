@@ -156,25 +156,24 @@ class ffmpegShell:
             self.cat(user_input)
         elif command == 'cmd':
             self.cmd(user_input)
+        elif command == 'pause':
+            self.pause(user_input)
+        elif command == 'restart':
+            self.restart()
         elif command == 'fps':
             self.set_fps(user_input) 
         elif command == 'nano':
             self.nanoedit(user_input)
-        elif command == 'pause':
-            self.pause(user_input)
+        elif command == 'fss':
+            self.fss_handler(user_input)
         elif command == 'prompt':
             self.promptchng(user_input)
-        elif command == 'restart':
-            self.restart()
         elif command == 'bitrate':
             self.set_bitrate(user_input)
         elif command == 'pwd':
             self.print_working_directory()
         elif command == 'cd':
-            if len(user_input.split()) == 1:
-                self.print_working_directory()
-            else:
-                self.change_directory(user_input)
+            self.cd_handler(user_input)
         elif command == 'dir' or command == 'ls':
             self.list_directory()
         elif command == 'cls' or command == 'clear':
@@ -185,11 +184,7 @@ class ffmpegShell:
             self.wait(user_input)
         elif command == 'experiment' or command == 'exp':
             self.experiment(user_input)
-        elif command == 'fss':
-            if len(user_input.split()) == 2:
-                self.execute_script(user_input.split()[1])
-            else:
-                print(Fore.LIGHTBLACK_EX + "Usage: fss <filename>")
+
         else:
             print(Fore.LIGHTBLACK_EX + "Error: Unknown command \"" + command + "\" ")
 
@@ -212,10 +207,7 @@ class ffmpegShell:
         elif command == 'pwd':
             self.print_working_directory()
         elif command == 'cd':
-            if len(cmd.split()) == 1:
-                self.print_working_directory()
-            else:
-                self.change_directory(cmd)
+            self.cd_handler(cmd)
         elif command == 'dir' or command == 'ls':
             self.list_directory()
         elif command == 'cls' or command == 'clear':
@@ -279,6 +271,17 @@ class ffmpegShell:
 
         except Exception as e:
             print(Fore.LIGHTBLACK_EX + f"Error: An error occurred while executing the script: {e}")
+
+    # fss handler
+    def fss_handler(self, user_input):
+        if len(user_input.split()) == 2:
+            filename = user_input.split()[1]
+            self.execute_script(filename)
+            pass
+        else:
+            print(Fore.LIGHTBLACK_EX + "Usage: fss <filename>")
+            return
+
 
     # Add user specified text to command input prompt
     def promptchng(self, user_input):
@@ -456,6 +459,13 @@ class ffmpegShell:
         print(Fore.CYAN + "    tree\t\t\t\t\t\t" + Fore.RESET + "- Display directory structure")
         print(Fore.CYAN + "    pwd\t\t\t\t\t\t\t" + Fore.RESET + "- Print current working directory")
 
+    # cd handler
+    def cd_handler(self, user_input):
+        if len(user_input.split()) == 1:
+            self.print_working_directory()
+        else:
+            self.change_directory(user_input)
+
     # cd command
     def change_directory(self, user_input):
         try:
@@ -464,7 +474,7 @@ class ffmpegShell:
             if directory == "~":
                 os.chdir(self.script_path)
                 self.current_path = self.script_path
-                print(Fore.LIGHTYELLOW_EX + f"Directory changed to: {Fore.GREEN}{self.current_path}")
+                print(Fore.LIGHTYELLOW_EX + f" Directory changed to: {Fore.GREEN}{self.current_path}")
                 return
 
             if ".ffscore" in directory:
@@ -473,14 +483,14 @@ class ffmpegShell:
 
             os.chdir(directory)
             self.current_path = os.getcwd()
-            print(Fore.LIGHTYELLOW_EX + f"Directory changed to: {Fore.GREEN}{self.current_path}")
+            print(Fore.LIGHTYELLOW_EX + f" Directory changed to: {Fore.GREEN}{self.current_path}")
 
         except Exception as e:
             print(Fore.LIGHTBLACK_EX + f"An error occurred: {e}")
     
     # pwd command
     def print_working_directory(self):
-        print(Fore.GREEN + f"{self.current_path}")
+        print(Fore.GREEN + f" {self.current_path}")
 
     # cls / clear command
     def clear_screen(self):
