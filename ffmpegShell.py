@@ -1,6 +1,5 @@
 from prompt_toolkit.completion import Completer, Completion # Used for Auto Text Completion
-from prompt_toolkit import PromptSession                    # Used for Auto Text Completion input handler
-from prompt_toolkit import HTML                             # Used for Auto Text Completion input color encoding fix
+from prompt_toolkit import PromptSession, HTML              # Used for Auto Text Completion input handler and color encoding fix
 from colorama import init, Fore, Style                      # Used for colors
 from datetime import datetime                               # Used for prompts
 import subprocess                                           # Used for running cmd proccesses
@@ -627,6 +626,7 @@ class ffmpegShell:
                 audioorvid = ':a'
             else:
                 print(Fore.LIGHTBLACK_EX + "Please specify if it's video or audio")
+                return
 
             if not os.path.isfile(input_file):
                 print(Fore.LIGHTBLACK_EX + f"Error: {input_file} does not exist.")
