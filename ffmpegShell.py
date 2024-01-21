@@ -42,32 +42,6 @@ class ffmpegShell:
         self.update_prompt_vars()
         self.promptchng('')
         self.remove_pycache()
-        self.commands = {
-            'help': self.display_help,
-            'tree': self.tree,
-            'exit': self.exit,
-            'cat': self.cat,
-            'cmd': self.cmd,
-            'fps': self.set_fps,
-            'nano': self.nanoedit,
-            'pause': self.pause,
-            'prompt': self.promptchng,
-            'restart': self.restart,
-            'bitrate': self.set_bitrate,
-            'pwd': self.print_working_directory,
-            'cd': self.change_directory,
-            'dir': self.list_directory,
-            'ls': self.list_directory,
-            'cls': self.clear_screen,
-            'clear': self.clear_screen,
-            'echo': self.echo,
-            'print': self.echo,
-            'wait': self.wait,
-            'timeout': self.wait,
-            'experiment': self.experiment,
-            'exp': self.experiment,
-            'fss': self.execute_script,
-        }
 
     # Welcome Message, Plugin Loading, Path Correction, ATC and Shell Input Handler
     def start(self):
