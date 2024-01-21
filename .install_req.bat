@@ -1,1 +1,0 @@
-pip install -r .ffscore/requirements.txt

@@ -1,6 +1,6 @@
 from prompt_toolkit.completion import Completer, Completion # Used for Auto Text Completion
-from prompt_toolkit import print_formatted_text, HTML       # Used for Auto Text Completion input color encoding fix
 from prompt_toolkit import PromptSession                    # Used for Auto Text Completion input handler
+from prompt_toolkit import HTML                             # Used for Auto Text Completion input color encoding fix
 from colorama import init, Fore, Style                      # Used for colors
 from datetime import datetime                               # Used for prompts
 import subprocess                                           # Used for running cmd proccesses
@@ -82,15 +82,6 @@ class ffmpegShell:
             else:
                 pass
 
-    # Command list for Auto Text Completion system
-    def get_commands(self):
-        commands = [
-            'help', 'tree', 'exit', 'cat', 'cmd', 'fps', 'nano', 'pause',
-            'prompt', 'restart', 'bitrate', 'pwd', 'cd', 'dir', 'ls',
-            'cls', 'clear', 'echo', 'wait', 'experiment', 'exp', 'fss'
-        ]
-        return commands
-
     # Remove pycache folder on ffs start
     def remove_pycache(self):
         try:
@@ -142,6 +133,15 @@ class ffmpegShell:
     def test(self, user_input):
         print(Fore.LIGHTBLACK_EX + '.fss Script attached to the ffmpegShell.py')
         print(Fore.LIGHTBLACK_EX + f'Script Message: {user_input}')
+
+    # Command list for Auto Text Completion system
+    def get_commands(self):
+        commands = [
+            'help', 'tree', 'exit', 'cat', 'cmd', 'fps', 'nano', 'pause',
+            'prompt', 'restart', 'bitrate', 'pwd', 'cd', 'dir', 'ls',
+            'cls', 'clear', 'echo', 'print', 'wait', 'timeout', 'experiment', 'exp', 'fss'
+        ]
+        return commands
 
     # Execute user specified commands
     def handle_regular_command(self, user_input):
@@ -284,6 +284,9 @@ class ffmpegShell:
     # Add user specified text to command input prompt
     def promptchng(self, user_input):
         args = user_input.split(maxsplit=1)
+
+        # Supports ANSI html color encodings!
+        # e.g. <ansiblack>text</ansiblack>
 
         # Garbage \/
         # Musisz zrobić tak jak windows, wiec jak -t to dodajesz self.time w zamiast tego cn
@@ -493,13 +496,13 @@ class ffmpegShell:
         for item in directory_list:
             full_path = os.path.join(os.getcwd(), item)
 
-            if os.path.isdir(full_path) and item != ".ffscore" and item != "RunShell":
+            if os.path.isdir(full_path) and item != ".ffscore" and item != "RunShell" and item != ".git":
                 print(Fore.LIGHTBLACK_EX + f"    \U0001F4C1 {item}")
 
         for item in directory_list:
             full_path = os.path.join(os.getcwd(), item)
 
-            if os.path.isfile(full_path) and item != ".RunShell.bat" and item != ".install_req.bat":
+            if os.path.isfile(full_path) and item != ".RunShell.bat" and item != ".install_req.bat" and item != ".gitignore":
                 if item.endswith('.fss'):
                     print(Fore.WHITE + f"    \U0001F4DC {item}")
 
@@ -582,7 +585,7 @@ class ffmpegShell:
         files.sort()
 
         # Define folders/files to be hidden
-        hidden_items = {".ffscore", "RunShell", ".RunShell.bat", ".install_req.bat"}
+        hidden_items = {".ffscore", "RunShell", ".RunShell.bat", ".install_req.bat", ".git", ".gitignore"}
 
         for item in dirs + files:
             try:
