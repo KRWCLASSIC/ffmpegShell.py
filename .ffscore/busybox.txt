@@ -1,0 +1,2 @@
+BusyBox v1.37.0-FRP-5181-g5c1a3b00e (2023-08-18 12:14:59 BST)
+(mingw32-gcc 12.2.1-8.fc38; mingw32-crt 10.0.0-4.fc38; glob)
