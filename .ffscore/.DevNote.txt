@@ -2,3 +2,5 @@ ffs = FFmpeg Shell
 fss = Ffmpeg Shell Script
 
 No documentation for you
+
+Auto Text Completion May be buggy and messy in the code so i might fix it later
