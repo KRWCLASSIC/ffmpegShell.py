@@ -22,29 +22,6 @@ from prompt_toolkit import print_formatted_text, HTML
 # Colorama color auto reset
 init(autoreset=True)
 
-# Text completion Class
-class CommandCompleter(Completer):
-
-    # Linking commands variable from Main Class to this class
-    def __init__(self, commands):
-        self.commands = commands
-
-    def get_completions(self, document, complete_event):
-        word_before_cursor = document.get_word_before_cursor()
-
-        if word_before_cursor and not word_before_cursor.startswith(' '):
-
-            # Suggest commands
-            for command in self.commands:
-                if command.startswith(word_before_cursor):
-                    yield Completion(command, -len(word_before_cursor))
-
-            # Suggest files and folders
-            current_path = os.getcwd()
-            for item in os.listdir(current_path):
-                if item.startswith(word_before_cursor):
-                    yield Completion(item, -len(word_before_cursor))
-
 # Main Class
 class ffmpegShell:
 
@@ -68,10 +45,11 @@ class ffmpegShell:
 
     # Welcome Message, Plugin Loading, Path Correction and Shell Input Handler
     def start(self):
-        self.current_path = os.path.dirname(os.path.abspath(__file__))
         initial_directory = os.getcwd()
+        self.current_path = os.path.dirname(os.path.abspath(__file__))
         self.running = True
         os.system('cls')
+
         print_formatted_text(HTML(f'<ansigreen>Welcome to ffmpegShell.py!</ansigreen>'))
         print("Type 'help' for assistance")
     
@@ -749,6 +727,29 @@ class ffmpegShell:
 
         except Exception as e:
             print(Fore.LIGHTBLACK_EX + f"An error occurred: {e}")
+
+# Text completion Class
+class CommandCompleter(Completer):
+
+    # Linking commands variable from Main Class to this class
+    def __init__(self, commands):
+        self.commands = commands
+
+    def get_completions(self, document, complete_event):
+        word_before_cursor = document.get_word_before_cursor()
+
+        if word_before_cursor and not word_before_cursor.startswith(' '):
+
+            # Suggest commands
+            for command in self.commands:
+                if command.startswith(word_before_cursor):
+                    yield Completion(command, -len(word_before_cursor))
+
+            # Suggest files and folders
+            current_path = os.getcwd()
+            for item in os.listdir(current_path):
+                if item.startswith(word_before_cursor):
+                    yield Completion(item, -len(word_before_cursor))
 
 # Starting up the shell
 if __name__ == "__main__":
