@@ -1,5 +1,5 @@
 from prompt_toolkit.completion import Completer, Completion # Used for Auto Text Completion
-from prompt_toolkit import print_formatted_text, HTML       # Used for Auto Text Completion color encoding fix
+from prompt_toolkit import print_formatted_text, HTML       # Used for Auto Text Completion input color encoding fix
 from prompt_toolkit import PromptSession                    # Used for Auto Text Completion input handler
 from colorama import init, Fore, Style                      # Used for colors
 from datetime import datetime                               # Used for prompts
@@ -17,6 +17,8 @@ import os                                                   # Used for using dea
 # Recommended to use PATH experiment
 
 # Also yeah, I have severe OCD so most stuff is sorted from longest to shortest, alphabetical etc.
+
+# Bro, I need to update 3 seperate functions when adding new command :sob:
 
 # Colorama color auto reset
 init(autoreset=True)
@@ -42,14 +44,14 @@ class ffmpegShell:
         self.promptchng('')
         self.remove_pycache()
 
-    # Welcome Message, Plugin Loading, Path Correction and Shell Input Handler
+    # Welcome Message, Plugin Loading, Path Correction, ATC and Shell Input Handler
     def start(self):
         initial_directory = os.getcwd()
         self.current_path = os.path.dirname(os.path.abspath(__file__))
         self.running = True
         os.system('cls')
 
-        print_formatted_text(HTML(f'<ansigreen>Welcome to ffmpegShell.py!</ansigreen>'))
+        print(Fore.GREEN + "Welcome to ffmpegShell.py!")
         print("Type 'help' for assistance")
     
         self.load_plugins()
@@ -57,13 +59,15 @@ class ffmpegShell:
     
         if self.script_path != initial_directory:
             print("Opened in", Fore.GREEN + f"{self.current_path}")
-    
+
+        # ATC    
         session = PromptSession(
             completer=CommandCompleter(self.get_commands()),
             enable_system_prompt=True,
             complete_while_typing=False,
         )
     
+        # Input Handler with ATC support
         while self.running:
             try:
                 user_input = session.prompt(
@@ -78,7 +82,7 @@ class ffmpegShell:
             else:
                 pass
 
-    # Add a method to get available commands
+    # Command list for Auto Text Completion system
     def get_commands(self):
         commands = [
             'help', 'tree', 'exit', 'cat', 'cmd', 'fps', 'nano', 'pause',
@@ -134,6 +138,7 @@ class ffmpegShell:
         
         self.remove_pycache()
 
+    # Testing function you can attach to using fss scripts and fssPlugins
     def test(self, user_input):
         print(Fore.LIGHTBLACK_EX + '.fss Script attached to the ffmpegShell.py')
         print(Fore.LIGHTBLACK_EX + f'Script Message: {user_input}')
@@ -280,6 +285,7 @@ class ffmpegShell:
     def promptchng(self, user_input):
         args = user_input.split(maxsplit=1)
 
+        # Garbage \/
         # Musisz zrobić tak jak windows, wiec jak -t to dodajesz self.time w zamiast tego cn
 
         if len(args) > 1:
