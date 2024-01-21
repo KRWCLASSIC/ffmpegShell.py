@@ -1,0 +1,4 @@
+[python]
+from ffmpegShell import ffmpegShell
+ffmpegShell().test('Attached')
+[/python]

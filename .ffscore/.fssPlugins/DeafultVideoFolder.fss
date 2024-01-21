@@ -1,0 +1,12 @@
+[python]
+
+import os
+import getpass
+
+username = getpass.getuser()
+
+video_folder = os.path.join('C:\\Users', username, 'Videos')
+
+os.chdir(video_folder)
+
+[/python]
