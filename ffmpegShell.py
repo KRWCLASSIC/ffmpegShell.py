@@ -42,6 +42,32 @@ class ffmpegShell:
         self.update_prompt_vars()
         self.promptchng('')
         self.remove_pycache()
+        self.commands = {
+            'help': self.display_help,
+            'tree': self.tree,
+            'exit': self.exit,
+            'cat': self.cat,
+            'cmd': self.cmd,
+            'fps': self.set_fps,
+            'nano': self.nanoedit,
+            'pause': self.pause,
+            'prompt': self.promptchng,
+            'restart': self.restart,
+            'bitrate': self.set_bitrate,
+            'pwd': self.print_working_directory,
+            'cd': self.change_directory,
+            'dir': self.list_directory,
+            'ls': self.list_directory,
+            'cls': self.clear_screen,
+            'clear': self.clear_screen,
+            'echo': self.echo,
+            'print': self.echo,
+            'wait': self.wait,
+            'timeout': self.wait,
+            'experiment': self.experiment,
+            'exp': self.experiment,
+            'fss': self.execute_script,
+        }
 
     # Welcome Message, Plugin Loading, Path Correction, ATC and Shell Input Handler
     def start(self):
@@ -106,9 +132,9 @@ class ffmpegShell:
         if not os.path.exists(self.auto_exec_file):
             with open(self.auto_exec_file, 'w') as auto_file:
                 auto_file.write("# List of scripts to auto-execute on shell start: \n\n")
+                auto_file.write("# DeafultVideoFolder.fss \n")
                 auto_file.write("# AttachingExample.fss \n")
-                auto_file.write("# CleanShell.fss \n")
-                auto_file.write("# DeafultVideoFolder.fss")
+                auto_file.write("# CleanShell.fss")
 
         with open(self.auto_exec_file, 'r') as auto_file:
             scripts_to_execute = auto_file.readlines()
@@ -770,7 +796,6 @@ if __name__ == "__main__":
 # Ideas: Build it as a module/package so you can use ffshell.start from any script without input, just "import ffmpegshell.py"
 #        Auto running scripts using starting arguments, e.g.: ffs run(script.fss, diffrent_script.fss). They would run in order you put in.
 #        Aliases stored in aliases.json inside .ffscore folder, alias command
-#        Add 'cat' command for reading files outside of an text editor
 
 # Fixes: Add variables support to echo
 #        Add proper prompt command support
