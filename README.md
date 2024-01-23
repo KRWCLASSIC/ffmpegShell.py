@@ -12,7 +12,7 @@ ffmpegShell is a Python-based shell that provides a command-line interface for t
 
 - .fss Scripts: ffmpegShell can execute custom scripts written in a special format. These scripts can contain a series of commands to be executed by the shell. They can be executed using ```fss``` command, as a plugin in ```.ffscore/.fssPlugins``` directory (Look into ``auto.ffexec`` file) or by using "run" argument. e.g.: ```ffs run(test.fss, test_2.fss)```
 
-- Python Code Blocks: .fss Scripts support python code blocks, shell will execute them as if they were usual python script (You can import packages), you can make code block like this:
+- Python Code Blocks: .fss Scripts support python code blocks, shell will execute them as if they were usual python script (You can import packages). You can make code block like this:
 
 ```
 [python]
@@ -20,7 +20,7 @@ print('code')
 [/python]
 ```
 
-- Plugin System: The shell supports a plugin system, which allows users to extend its functionality by writing custom plugins. Plugins can be written in Shell Commands or Python Code Blocks.
+- Plugin System: The shell supports a plugin system, which allows users to extend its functionality by writing custom plugins. Plugins can be written in ffmpegShell Commands or Python Code Blocks.
 
 - Experiments: The shell supports a path experiment feature, which allows users to add or remove ffmpegShell directory to the system PATH. This can be useful for running the shell from any directory using cmd.
 
