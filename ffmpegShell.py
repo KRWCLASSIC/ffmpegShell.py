@@ -39,6 +39,7 @@ class ffmpegShell:
         script_path = os.path.dirname(os.path.abspath(sys.argv[0]))
         root, tail = os.path.splitdrive(script_path)
         self.script_path = os.path.join(root.upper(), tail)
+        self.scripts_to_run = self.parse_script_args()
         self.update_prompt_vars()
         self.promptchng('')
         self.remove_pycache()
@@ -47,14 +48,20 @@ class ffmpegShell:
     def start(self):
         initial_directory = os.getcwd()
         self.current_path = os.path.dirname(os.path.abspath(__file__))
+        self.update_current_directory()
         self.running = True
         os.system('cls')
 
+        # Add autoexec plugins into running queue
+        self.load_plugins()
+
+        # Running argument scripts using full path
+        for filename in self.scripts_to_run:
+            script_path = os.path.join(initial_directory, filename)
+            self.execute_script(script_path)
+
         print(Fore.GREEN + "Welcome to ffmpegShell.py!")
         print("Type 'help' for assistance")
-    
-        self.load_plugins()
-        self.update_current_directory()
     
         if self.script_path != initial_directory:
             print("Opened in", Fore.GREEN + f"{self.current_path}")
@@ -97,6 +104,19 @@ class ffmpegShell:
     # Bug fix for entering from outside of the script folder (Why this shit broken :skull:)
     def update_current_directory(self):
         self.current_path = os.getcwd()
+
+    # Loading scripts specified in "run()" launch argument
+    def parse_script_args(self):
+        scripts = []
+        args = sys.argv[1:]
+        joined_args = ' '.join(args) 
+
+        if joined_args.startswith('run'):
+            arg_str = joined_args[joined_args.find('(')+1:joined_args.rfind(')')]
+            scripts = arg_str.split(',')
+            scripts = [script.strip() for script in scripts if script.strip()]
+
+        return scripts
 
     # Loading plugins
     def load_plugins(self):
@@ -778,7 +798,6 @@ if __name__ == "__main__":
         pass
 
 # Ideas: Build it as a module/package so you can use ffshell.start from any script without input, just "import ffmpegshell.py"
-#        Auto running scripts using starting arguments, e.g.: ffs run(script.fss, diffrent_script.fss). They would run in order you put in.
 #        Aliases stored in aliases.json inside .ffscore folder, alias command
 
 # Fixes: Add variables support to echo

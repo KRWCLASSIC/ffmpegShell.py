@@ -1,1 +1,1 @@
-call RunShell/ffmpegshell.bat
+call RunShell/ffmpegshell.bat %*

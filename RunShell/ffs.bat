@@ -1,1 +1,1 @@
-call ffmpegshell.bat
+call ffmpegshell.bat %*
