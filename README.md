@@ -24,4 +24,24 @@ print('code')
 
 - Experiments: The shell has experiments feature, which allows users to e.g. add or remove ffmpegShell directory to the system PATH. This can be useful for running the shell from any directory using cmd.
 
-- Color Support: The shell supports ANSI color codes, which can be used to colorize the output of commands.
+- Color Support: The shell supports ANSI color codes, which can be used to colorize the output of commands. (Currently not supported by echo/print command)
+
+Colors:
+```
+- <ansiblack> - Black
+- <ansired> - Red
+- <ansigreen> - Green
+- <ansiyellow> - Yellow
+- <ansiblue> - Blue
+- <ansimagenta> - Magenta
+- <ansicyan> - Cyan
+- <ansigray> - Gray
+- <ansibrightblack> - Bright Black
+- <ansibrightred> - Bright Red
+- <ansibrightgreen> - Bright Green
+- <ansibrightyellow> - Bright Yellow
+- <ansibrightblue> - Bright Blue
+- <ansibrightmagenta> - Bright Magenta
+- <ansibrightcyan> - Bright Cyan
+- <ansibrightwhite> - Bright White
+```
