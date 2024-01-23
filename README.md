@@ -22,6 +22,6 @@ print('code')
 
 - Plugin System: The shell supports a plugin system, which allows users to extend its functionality by writing custom plugins. Plugins can be written in ffmpegShell Commands or Python Code Blocks.
 
-- Experiments: The shell supports a path experiment feature, which allows users to add or remove ffmpegShell directory to the system PATH. This can be useful for running the shell from any directory using cmd.
+- Experiments: The shell has experiments feature, which allows users to e.g. add or remove ffmpegShell directory to the system PATH. This can be useful for running the shell from any directory using cmd.
 
 - Color Support: The shell supports ANSI color codes, which can be used to colorize the output of commands.
