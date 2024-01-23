@@ -44,7 +44,7 @@ class ffmpegShell:
         self.promptchng('')
         self.remove_pycache()
 
-    # Welcome Message, Plugin Loading, Path Correction, ATC and Shell Input Handler
+    # Welcome Message, Plugin Loading, Script Argument Executing, Path Correction, ATC and Shell Input Handler
     def start(self):
         initial_directory = os.getcwd()
         self.current_path = os.path.dirname(os.path.abspath(__file__))
