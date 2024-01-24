@@ -173,6 +173,8 @@ class ffmpegShell:
             self.tree()
         elif command == 'exit':
             self.exit()
+        elif command == 'open':
+            self.open_cwd()
         elif command == 'info':
             self.show_info()
         elif command == 'cmd':
@@ -219,6 +221,8 @@ class ffmpegShell:
             self.set_fps(cmd)
         elif command == 'tree':
             self.tree()
+        elif command == 'open':
+            self.open_cwd()
         elif command == 'exit':
             self.exit()
         elif command == 'info':
@@ -488,6 +492,9 @@ class ffmpegShell:
     def show_info(self):
         print(Fore.GREEN + "ffmpegShell.py " + Fore.RESET + "| " + Fore.CYAN + f"Version: win-{self.ffs_ver}")
 
+    # open command
+    def open_cwd(self):
+        os.startfile(self.current_path)
     # cd handler
     def cd_handler(self, user_input):
         if len(user_input.split()) == 1:
