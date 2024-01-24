@@ -27,6 +27,7 @@ class ffmpegShell:
 
     # Setting up requiered variables
     def __init__(self):
+        self.ffs_ver = '0.1'
         self.running = False
         self.current_path = os.getcwd()
         self.ffmpeg_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.ffscore', 'ffmpeg', 'bin', 'ffmpeg.exe')
@@ -172,10 +173,12 @@ class ffmpegShell:
             self.tree()
         elif command == 'exit':
             self.exit()
-        elif command == 'cat':
-            self.cat(user_input)
+        elif command == 'info':
+            self.show_info()
         elif command == 'cmd':
             self.cmd(user_input)
+        elif command == 'cat':
+            self.cat(user_input)
         elif command == 'pause':
             self.pause(user_input)
         elif command == 'restart':
@@ -218,6 +221,8 @@ class ffmpegShell:
             self.tree()
         elif command == 'exit':
             self.exit()
+        elif command == 'info':
+            self.show_info()
         elif command == 'pause':
             self.pause(cmd)
         elif command == 'prompt':
@@ -478,6 +483,10 @@ class ffmpegShell:
         print(Fore.CYAN + "    exit\t\t\t\t\t\t" + Fore.RESET + "- Exit ffmpegShell")
         print(Fore.CYAN + "    tree\t\t\t\t\t\t" + Fore.RESET + "- Display directory structure")
         print(Fore.CYAN + "    pwd\t\t\t\t\t\t\t" + Fore.RESET + "- Print current working directory")
+
+    # info command
+    def show_info(self):
+        print(Fore.GREEN + "ffmpegShell.py " + Fore.RESET + "| " + Fore.CYAN + f"Version: win-{self.ffs_ver}")
 
     # cd handler
     def cd_handler(self, user_input):
