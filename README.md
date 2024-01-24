@@ -4,6 +4,10 @@
 
 ffmpegShell is a Python-based shell that provides a command-line interface for the FFmpeg multimedia framework. It allows users to interact with FFmpeg using a set of predefined commands, as well as execute custom scripts.
 
+## Plans
+
+Add more FFmpeg commands, duh?
+
 ## Features
 
 - Command-line Interface: ffmpegShell provides a command-line interface for interacting with FFmpeg. Users can enter commands directly into the shell, and the shell will execute them.
