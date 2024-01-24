@@ -27,7 +27,7 @@ class ffmpegShell:
 
     # Setting up requiered variables
     def __init__(self):
-        self.ffs_ver = '0.1'
+        self.ffs_ver = '0.2'
         self.running = False
         self.current_path = os.getcwd()
         self.ffmpeg_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.ffscore', 'ffmpeg', 'bin', 'ffmpeg.exe')
