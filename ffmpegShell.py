@@ -806,10 +806,12 @@ if __name__ == "__main__":
     except:
         pass
 
-# Ideas: Build it as a module/package so you can use ffshell.start from any script without input, just "import ffmpegshell.py"
+# Ideas: Build it as a module/package so you can use ffshell.start from any script without input, just "import ffmpegshell"
 #        Aliases stored in aliases.json inside .ffscore folder, alias command
 
 # Fixes: Add variables support to echo
 #        Add proper prompt command support
+
+# Death: ffmpegShellGUI.py
 
 # Evolve: Finish this project and make Project::Quartz (Python Based Windows Shell with Cmd, Powershell and Bash syntaxes)
