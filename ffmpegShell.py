@@ -10,7 +10,7 @@ try:                                                            # Stop it from c
     from prompt_toolkit.completion import Completer, Completion # Used for Auto Text Completion
     from prompt_toolkit import PromptSession, HTML              # Used for Auto Text Completion input handler and color encoding fix
     from colorama import init, Fore, Style                      # Used for colors
-else:
+except:
     print("Please run '.install_req.bat' inside '.ffscore' folder")
 
 # What ffmpegShell?
