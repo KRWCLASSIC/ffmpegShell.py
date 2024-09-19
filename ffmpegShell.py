@@ -17,7 +17,7 @@ import os                                                   # Used for using dea
 
 # Also yeah, I have severe OCD so most stuff is sorted from longest to shortest, alphabetical etc.
 
-# Bro, I need to update 3 seperate functions when adding new command :sob:
+# Bro, I need to update 3 seperate functions when adding new command :sob: | ill fix that
 
 # Colorama color auto reset
 init(autoreset=True)
