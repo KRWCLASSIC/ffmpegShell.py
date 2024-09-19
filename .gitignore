@@ -1,4 +1,7 @@
 .ffscore/backup/*
 .ffscore/PortablePython/*
+.ffscore/busybox/*
+.ffscore/ffmpeg/*
+.ffscore/commands/__pycache__/*
 test.mp4
 BUILDS/*

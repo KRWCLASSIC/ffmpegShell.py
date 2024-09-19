@@ -3,4 +3,5 @@ fss = Ffmpeg Shell Script
 
 No documentation for you
 
-Auto Text Completion May be buggy and messy in the code so i might fix it later
+For anyone asking why PATH is an experiment thats because it's just too fragile, it could break when path to script changes, so yeah.
+I'm planning to add new experiment for .fss double click running so i'll fix it using registry, it will update current path on launch

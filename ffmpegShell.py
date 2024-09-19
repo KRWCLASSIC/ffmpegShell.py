@@ -22,12 +22,27 @@ import os                                                   # Used for using dea
 # Colorama color auto reset
 init(autoreset=True)
 
+# Allow python interpreter to search for imports in .fsscore folder
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.ffscore')))
+
 # Main Class
 class ffmpegShell:
 
     # Setting up requiered variables
     def __init__(self):
-        self.ffs_ver = '0.2'
+
+        # Initilize filebased commands
+        from commands.filebased import cat; self.cat = lambda user_input: cat(self, user_input) # type: ignore
+        from commands.filebased import tree; self.tree = lambda: tree(self) # type: ignore
+
+        # Initilize filebased commands
+        from commands.mediabased import set_fps; self.set_fps = lambda user_input: set_fps(self, user_input) # type: ignore
+        from commands.mediabased import set_bitrate; self.set_bitrate = lambda user_input: set_bitrate(self, user_input) # type: ignore
+
+        # Initilize misc commands
+        from commands.misc import restart; self.restart = lambda: restart(self) # type: ignore
+
+        self.ffs_ver = '0.3 (Main Branch - NonRelease)'
         self.running = False
         self.current_path = os.getcwd()
         self.ffmpeg_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.ffscore', 'ffmpeg', 'bin', 'ffmpeg.exe')
@@ -334,15 +349,6 @@ class ffmpegShell:
             self.promptqueue = ''
             self.prompt = ''
             return
-        
-    # restart command
-    def restart(self):
-        try:
-            self.clear_screen()
-            os.system(f'call \"{self.script_path}\.RunShell.bat\"')
-
-        except Exception as e:
-            print(Fore.LIGHTBLACK_EX + f"An error occurred: {e}")
             
     # wait / timeout command
     def wait(self, user_input):
@@ -571,217 +577,6 @@ class ffmpegShell:
             content = file.read(1024)  # Read a portion of the file
             return b'\x00' in content  # Check for null byte
 
-    # cat command
-    def cat(self, user_input):
-        try:
-            args = user_input.split()[1:]
-
-            if len(args) < 1:
-                print(Fore.LIGHTBLACK_EX + "Usage: cat <file>")
-                return
-
-            filename = args[0]
-
-            if self.bin_check(filename):
-                print(Fore.LIGHTBLACK_EX + f"Error: File '{filename}' is a binary file. Cannot display content.")
-                return
-
-            output = subprocess.run([self.busybox_path, 'cat', filename], capture_output=True, text=True)
-            
-            if output.returncode == 0:
-                print(Fore.LIGHTBLACK_EX + output.stdout)
-
-            else:
-                print(Fore.LIGHTBLACK_EX + f"Error reading file: {output.stderr.strip()}")
-
-        except Exception as e:
-            print(Fore.LIGHTBLACK_EX + f"An error occurred: {e}")
-
-    # tree command
-    def tree(self):
-        print(Fore.LIGHTYELLOW_EX + f" Directory Tree of {Fore.GREEN}{self.current_path}")
-        tree_lines = self.get_tree_lines(self.current_path, '', is_main_folder=True)
-        if len(tree_lines) > 50:
-            warning_message = f"{Fore.RED}WARNING: TREE IS LONG ({len(tree_lines)} LINES)! " \
-                              f"DO YOU STILL WANT TO PRINT?"
-
-            print(warning_message.center(os.get_terminal_size().columns))
-            user_input = input(Fore.MAGENTA + "(y/N): " + Fore.RESET).lower()
-            if user_input == 'y' or user_input == 'Y':
-                self.print_tree(tree_lines)
-
-            else:
-                return
-
-        else:
-            self.print_tree(tree_lines)
-
-    # Read lines for the tree
-    def get_tree_lines(self, path, prefix, is_main_folder=True):
-        lines = []
-        contents = os.listdir(path)
-        
-        # Separate directories and files
-        dirs = [d for d in contents if os.path.isdir(os.path.join(path, d))]
-        files = [f for f in contents if not os.path.isdir(os.path.join(path, f))]
-        
-        # Sort directories and files separately
-        dirs.sort()
-        files.sort()
-
-        # Define folders/files to be hidden
-        hidden_items = {".ffscore", "RunShell", ".RunShell.bat", ".install_req.bat", ".git", ".gitignore"}
-
-        for item in dirs + files:
-            try:
-                full_path = os.path.join(path, item)
-                if item not in hidden_items:
-                    if os.path.isdir(full_path):
-                        lines.append(f"{prefix}{'    ' if is_main_folder else '    '}{Fore.LIGHTBLACK_EX}\U0001F4C1 {item}{Fore.RESET}")
-                        lines.extend(self.get_tree_lines(full_path, prefix + '    ', is_main_folder=False))
-                    else:
-                        lines.append(f"{prefix}{'    ' if is_main_folder else '    '}\U0001F4C4 {item}")
-            except Exception as e:
-                print(Fore.LIGHTBLACK_EX + f"An error occurred: {e}")
-
-        return lines
-
-    # Print out the tree itself, including emoji handling
-    def print_tree(self, tree_lines):
-        for line in tree_lines:
-            if line.endswith('.fss'):
-                print(line.replace("\U0001F4C4", "\U0001F4DC"))
-
-            else:
-                print(line)
-
-    # bitrate command
-    def set_bitrate(self, user_input):
-        try:
-            args = user_input.split()[1:]
-            if len(args) < 3:
-                raise ValueError(Fore.LIGHTBLACK_EX + "Usage: bitrate <number> <-v(ideo) or -a(udio)> <input file> [<output file>]")
-
-            bitrate = args[0]
-            audioorvid = args[1]
-            input_file = args[2]
-
-            if audioorvid == '-v':
-                audioorvid = ':v'
-            elif audioorvid == '-a':
-                audioorvid = ':a'
-            else:
-                print(Fore.LIGHTBLACK_EX + "Please specify if it's video or audio")
-                return
-
-            if not os.path.isfile(input_file):
-                print(Fore.LIGHTBLACK_EX + f"Error: {input_file} does not exist.")
-                return
-
-            if len(args) >= 4:
-                output_file = args[3]
-            else:
-                filename, ext = os.path.splitext(input_file)
-                output_file = f"{filename}_bitrate{ext}"
-
-            override = ''
-            if os.path.isfile(output_file):
-                override = input(Fore.LIGHTBLACK_EX + f"File '{output_file}' already exists. Overwrite? (y/N): ")
-
-            else:
-                override = 'y'
-
-            if override == 'y':
-                command = [
-                    self.ffmpeg_path,
-                    '-hide_banner',
-                    '-y',
-                    '-i', input_file,
-                    f'-b{audioorvid}', bitrate,
-                    '-map_metadata', '-1',
-                    output_file
-                ]
-
-                process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-
-                while True:
-                    output = process.stdout.readline()
-                    if output == '' and process.poll() is not None:
-                        break
-                    if output:
-                        print(f"{Fore.LIGHTBLACK_EX}{output.strip()}{Fore.RESET}")
-
-                return_code = process.wait()
-
-                if return_code != 0:
-                    print(Fore.LIGHTBLACK_EX + f"An error occurred while running the command. Return code: {return_code}")
-
-            else:
-                print(Fore.LIGHTBLACK_EX + "Operation aborted.")
-
-        except Exception as e:
-            print(Fore.LIGHTBLACK_EX + f"An error occurred: {e}")
-
-    # fps command
-    def set_fps(self, user_input):
-        try:
-            args = user_input.split()[1:]
-
-            if len(args) < 2:
-                raise ValueError(Fore.LIGHTBLACK_EX + "Usage: fps <fps amount> <input file> [<output file>]")
-
-            fps_amount = args[0]
-            input_file = args[1]
-
-            if not os.path.isfile(input_file):
-                print(Fore.LIGHTBLACK_EX + f"Error: {input_file} does not exist.")
-                return
-
-            if len(args) >= 3:
-                output_file = args[2]
-
-            else:
-                filename, ext = os.path.splitext(input_file)
-                output_file = f"{filename}_fps{ext}"
-
-            override = ''
-            if os.path.isfile(output_file):
-                override = input(Fore.LIGHTBLACK_EX + f"File '{output_file}' already exists. Overwrite? (y/N): ")
-
-            else:
-                override = 'y'
-
-            if override == 'y':
-                command = [
-                    self.ffmpeg_path,
-                    '-hide_banner',
-                    '-y',
-                    '-i', input_file,
-                    '-r', fps_amount,
-                    output_file
-                ]
-
-                process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-
-                while True:
-                    output = process.stdout.readline()
-                    if output == '' and process.poll() is not None:
-                        break
-
-                    if output:
-                        print(f"{Fore.LIGHTBLACK_EX}{output.strip()}{Fore.RESET}")
-
-                return_code = process.wait()
-
-                if return_code != 0:
-                    print(Fore.LIGHTBLACK_EX + f"An error occurred while running the command. Return code: {return_code}")
-
-            else:
-                print(Fore.LIGHTBLACK_EX + "Operation aborted.")
-
-        except Exception as e:
-            print(Fore.LIGHTBLACK_EX + f"An error occurred: {e}")
-
 # Text completion Class
 class CommandCompleter(Completer):
 
@@ -815,6 +610,7 @@ if __name__ == "__main__":
 
 # Ideas: Build it as a module/package so you can use ffshell.start from any script without input, just "import ffmpegshell"
 #        Aliases stored in aliases.json inside .ffscore folder, alias command
+#        .fss scripts runnable as executeables???? (add filehandler.py)
 
 # Fixes: Add variables support to echo
 #        Add proper prompt command support
