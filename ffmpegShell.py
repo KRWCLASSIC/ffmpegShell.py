@@ -1,14 +1,17 @@
-from prompt_toolkit.completion import Completer, Completion # Used for Auto Text Completion
-from prompt_toolkit import PromptSession, HTML              # Used for Auto Text Completion input handler and color encoding fix
-from colorama import init, Fore, Style                      # Used for colors
-from datetime import datetime                               # Used for prompts
-import subprocess                                           # Used for running cmd proccesses
-import winreg                                               # Used for modifying windows registry (User's PATH) and exit function
-import msvcrt                                               # Used for pause command and clearing potential input buffering from commands
-import shutil                                               # Used for removing cache folder
-import time                                                 # Used for timeout/wait command
-import sys                                                  # Used for setting up self.script_path
-import os                                                   # Used for using deafult cmd commands
+from datetime import datetime                                   # Used for prompts
+import subprocess                                               # Used for running cmd proccesses
+import winreg                                                   # Used for modifying windows registry (User's PATH) and exit function
+import msvcrt                                                   # Used for pause command and clearing potential input buffering from commands
+import shutil                                                   # Used for removing cache folder
+import time                                                     # Used for timeout/wait command
+import sys                                                      # Used for setting up self.script_path
+import os                                                       # Used for using deafult cmd commands
+try:                                                            # Stop it from crashing when package is not installed
+    from prompt_toolkit.completion import Completer, Completion # Used for Auto Text Completion
+    from prompt_toolkit import PromptSession, HTML              # Used for Auto Text Completion input handler and color encoding fix
+    from colorama import init, Fore, Style                      # Used for colors
+else:
+    print("Please run '.install_req.bat' inside '.ffscore' folder")
 
 # What ffmpegShell?
 # Just tool and shell to make using ffmpeg easier, no more online converters etc.!
